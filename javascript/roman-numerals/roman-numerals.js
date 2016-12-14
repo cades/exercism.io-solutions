@@ -1,33 +1,22 @@
 function toRoman(n) {
-  var res = ''
+  return String(n).split('')
+    .reverse().map((d, i) => converters[i](d))
+    .reverse().join('')
+}
 
-  if (n > 1000) {
-    res = res + 'M'.repeat(Math.floor(n/1000)) // M = 1000
-    n = n % 1000
+const convertOnes      = convert({ unit: 'I', fiveUnit: 'V', tenUnit: 'X' })
+const convertTens      = convert({ unit: 'X', fiveUnit: 'L', tenUnit: 'C' })
+const convertHundreds  = convert({ unit: 'C', fiveUnit: 'D', tenUnit: 'M' })
+const convertThousands = convert({ unit: 'M', fiveUnit: '?', tenUnit: '?' })
+const converters = [convertOnes, convertTens, convertHundreds, convertThousands]
+
+function convert({unit, fiveUnit, tenUnit}) {
+  return function(n) {
+    return unit.repeat(n)
+      .replace(unit.repeat(9), unit + tenUnit)
+      .replace(unit.repeat(5), fiveUnit)
+      .replace(unit.repeat(4), unit + fiveUnit)
   }
-
-  if (n > 100) {
-    res = res + 'C'.repeat(Math.floor(n/100)) // C = 100
-      .replace('C'.repeat(9), 'CM')    // M = 1000
-      .replace('C'.repeat(5), 'D')     // D = 500
-      .replace('C'.repeat(4), 'CD')
-    n = n % 100
-  }
-
-  if (n > 10) {
-    res = res + 'X'.repeat(Math.floor(n/10)) // X = 10
-      .replace('X'.repeat(9), 'XC')          // C = 100
-      .replace('X'.repeat(5), 'L')           // L = 50
-      .replace('X'.repeat(4), 'XL')
-    n = n % 10
-  }
-
-  res = res + 'I'.repeat(n)       // I = 1
-    .replace('I'.repeat(9), 'IX') // X = 10
-    .replace('I'.repeat(5), 'V')  // V = 5
-    .replace('I'.repeat(4), 'IV')
-
-  return res
 }
 
 module.exports = toRoman;
