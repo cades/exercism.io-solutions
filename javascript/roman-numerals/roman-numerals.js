@@ -2,12 +2,12 @@ function toRoman(n) {
   var res = ''
 
   if (n > 1000) {
-    res = 'M'.repeat(Math.floor(n/1000)) // M = 1000
+    res = res + 'M'.repeat(Math.floor(n/1000)) // M = 1000
     n = n % 1000
   }
 
   if (n > 100) {
-    res = 'C'.repeat(Math.floor(n/100)) // C = 100
+    res = res + 'C'.repeat(Math.floor(n/100)) // C = 100
       .replace('C'.repeat(9), 'CM')    // M = 1000
       .replace('C'.repeat(5), 'D')     // D = 500
       .replace('C'.repeat(4), 'CD')
